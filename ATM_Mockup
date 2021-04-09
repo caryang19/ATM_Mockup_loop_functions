@@ -7,8 +7,9 @@
 import random
 from datetime import datetime
 now = datetime.now()
-date = now.strftime("%x")
-time = now.strftime("%I:%M %p")
+time = now.strftime("%H:%M:%S")
+date = now.strftime("%B %d, %Y")
+
 
 #account
 acctDB = {}
@@ -17,7 +18,7 @@ demoAcctDB = {"name": 'olumide', "pin": '2020', "account": '101010', "balance":2
 def init():
 
    
-    print("Welcome{}{}{}\U0001F606\n".format("to Ecobank," , " Today is: " + date,time) + "***********" * 4)
+    print("Welcome{}{}-{}\U0001F606\n".format("to Ecobank," , " Today is: " + date,time) + "***********" * 4)
     print("| 1 | Existing Customer\n| 2 | New Customer\n| 3 | Recover Account Details\n" + "***********" * 4 )
  
     UserInp = int(input("\nSelect Option: "))
@@ -50,7 +51,7 @@ def login():
 
         if(password == allowedPassword[userId]):
 
-            print("Welcome {}{} {}".format("Demo User, ", "Today is: " + date,time))
+            print("Welcome {}{}-{}".format("Demo User, ", "Today is: " + date,time))
             print("*********" * 4)
             print("You're logged in!")
             print("*********" * 4)
@@ -196,7 +197,7 @@ def bankOperation(userDetails):
     print("***********" * 4)
     print("Log in Successful!\U0001f600")
     print("***********" * 4)
-    print("Welcome {} {} {}".format(userDetails[0].title()," | " + date,time))
+    print("Welcome {} {}-{}".format(userDetails[0].title()," | " + date,time))
 
     print("***********" * 4)
     
