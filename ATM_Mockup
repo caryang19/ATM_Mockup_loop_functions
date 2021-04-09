@@ -1,0 +1,279 @@
+#Author: Olamilekan Olumide
+#ATM App
+#version - 1.2v
+#Year - 2021
+import random
+from datetime import datetime
+now = datetime.now()
+date = now.strftime("%x")
+time = now.strftime("%I:%M %p")
+
+#account
+acctDB = {}
+demoAcctDB = {"name": 'olumide', "pin": '2020', "account": '101010', "balance":2500.0}
+#main program start
+def init():
+
+   
+    print("Welcome{}{}{}\U0001F606\n".format("to Ecobank," , " Today is: " + date,time) + "***********" * 4)
+    print("| 1 | Existing Customer\n| 2 | New Customer\n| 3 | Recover Account Details\n" + "***********" * 4 )
+ 
+    UserInp = int(input("\nSelect Option: "))
+
+    if(UserInp == 1):
+        
+        login()
+    elif(UserInp == 2):
+        
+        register()
+    elif(UserInp == 3):
+        recoverDetails()
+    else:
+        print("You have selected invalid option")
+        init()
+
+"""
+    Log in Operations
+    begins here
+    """
+def login():
+    allowedUsers = ['101010', '202020']
+    allowedPassword = ['1010','2002']
+    balanceAmt = 2000.00
+    Acct = input("Enter Account Number: ")
+    if(Acct in allowedUsers):
+        password = input("Enter Pin: ")
+        print("*********" * 4)
+        userId = allowedUsers.index(Acct)
+
+        if(password == allowedPassword[userId]):
+
+            print("Welcome {}{} {}".format("Demo User, ", "Today is: " + date,time))
+            print("*********" * 4)
+            print("You're logged in!")
+            print("*********" * 4)
+            print('Select an option')
+            print('1. Withdrawal')
+            print('2. Cash Deposit')
+            print('3. Complaint')
+            print("*********" * 4)
+
+            selectedOption = int(input('Please select an Option: '))
+            print("*********" * 4)
+        #Withdrawal
+        if(selectedOption == 1):
+            print('Withdrawal Selected')
+            print("*********" * 4)
+            print(' 1. savings\n 2. current\n')
+            
+            selectedOption = int(input('select an option: '))
+            
+            if(selectedOption == 1):
+                print('Savings Account Selected to be Debited')
+                print("*********" * 4)
+                withdrawAmnt = float(input("Enter Amount: "))
+                if (withdrawAmnt > balanceAmt):
+                	print("Insufficient Balance!")
+                else:
+                	print("Take Your Cash: ")
+                	exit()
+             
+                    
+        elif(selectedOption == 2):
+            print('Deposit Selected')
+            print("*********" * 4)
+            print(' 1. saving\n 2. current\n')
+
+            selectedOption = int(input('select an option'))
+
+            if(selectedOption == 1):
+                print('Savings Account Selected to be Credited')
+                print("*********" * 4)
+                depositAmt = float(input("Enter amount: "))
+                balanceAmt = balanceAmt + depositAmt
+                print(balanceAmt)   
+            
+        elif(selectedOption == 3):
+            print('you selected %s' % selectedOption)
+            print(' 1. Report an issue\n 2. Exit\n')
+
+            selectedOption = int(input('select an option'))
+
+            if(selectedOption == 1):
+                print('you selected %s' % selectedOption)
+                ReportanIssue = input("Write issue: ")
+                print('Thank you for your message, we will get back to you for.')   
+
+            else:
+                print('Invalid Option selected, please try again')
+
+
+
+        else:
+            print('Password Incorrect, please try again')
+
+    else:
+
+        print('Name not found, please try again')
+        init()
+#login operations end here
+def register():
+
+    print("****** Account Opening Page *******")
+
+    first_name = input("What is your first name?\n")
+    last_name = input("What is your last name?\n")
+    pin = input("create a pin for yourself\n")
+    if len(pin) > 4 or len(pin) < 4:
+        print("Pin must be 4 numbers")
+        #go back to register top
+        register()
+    phoneNo = input("Your Mobile Number\n")
+    
+    
+
+    accountNumber = generationAccountNumber()
+    acctDB[accountNumber] = [ first_name, last_name, pin, phoneNo]
+    acctDB.update({"balance": 500.0})
+    print(acctDB)
+
+    print("Your Account Has been created Successfully!\U0001f600")
+    print("***********" * 4)
+    print("Your Account Details:")
+    print("Account Number:\t %d" % accountNumber)
+    print("Full Name:\t \t " + first_name.title() + " " + last_name.title())
+    print("Mobile Number:\t " + phoneNo)
+    print("Please note that your mobile number\nwill be use to receive transaction alerts!")
+    print("***********" * 4)
+    print("You have N500.00 Account Opening Bonus")
+    
+    print("Thank you for choosing us")
+    print("_______________"*4)
+    print("\n")
+    login()
+
+#-- Recover Account Details Start --
+def recoverDetails():
+    print("______________"*4 + "\nLost Account Details\n" + "______________"*4)
+    print("| 1 | Lost Account Number\n| 2 | Forgot Pin\n| 3 | Change Mobile Number\n" + "***********" * 4)
+    UserInp = int(input("\nSelect Option: "))
+
+    if(UserInp == 1):
+        print("Olodo like you, how can you forget your account?")
+        
+    elif(UserInp == 2):
+        print("Pin recovery Page")
+        print("Get your 10 Account Digit ready")
+        
+    elif(UserInp == 3):
+        checker()
+                
+        
+    else:
+        print("You have selected invalid option")
+        init()
+
+def checker():
+    print("Change Mobile Number Page")
+    ninCheck = input("Have you registered for NIN? ")
+    if ninCheck.lower() == 'yes' or ninCheck.lower() == 'y':
+        
+        while True:
+            UserInp = input("Enter NIN Number: ")
+            print("Your NIN: %s \nThank You, we will get back to you!" %UserInp)
+            init()
+    else:
+        print("Wrong input")
+        checker()
+# -- Recover Account Details End --
+
+
+
+#Bank Operation Starts
+def bankOperation(userDetails):
+    print("***********" * 4)
+    print("Log in Successful!\U0001f600")
+    print("***********" * 4)
+    print("Welcome {} {} {}".format(userDetails[0].title()," | " + date,time))
+
+    print("***********" * 4)
+    
+    print("*********" * 4)
+    print('Banking Option:')
+    print('1. Withdrawal')
+    print('2. Cash Deposit')
+    print('3. Balance')
+    print('4. Complaint')
+    print("*********" * 4)
+    selectedOption = int(input('Please select an Option: '))
+    print("*********" * 4)
+    selectedOption = int(input("Enter Option: "))
+
+    if(selectedOption == 1):
+        #Withdraw
+        withdrawalOperation()
+        
+    elif(selectedOption == 2):
+        #Deposit
+        depositOperation()
+        
+        
+    elif(selectedOption == 3):
+        
+        print(balanceOperation(bal))
+        
+    elif(selectedOption == 4):
+        #logout call
+        logout()
+    else:
+      
+        print("Invalid option selected")
+        bankOperation(userDetails)
+
+
+def balanceOperation():
+    #print Account Balance
+    
+    bal = acctDB.get("balance")
+    print("Your balance is %f \nDeposit Transaction Completed" % acctDB["balance"])
+
+def withdrawalOperation():
+    #Withdrawal Process
+    amt = float(input("Enter Amount: "))
+    
+    bal = acctDB.get("balance")
+    bal = bal - amt
+    acctDB["balance"] = bal
+    print(acctDB["balance"])
+    print("Take Your Cash: ")
+    print("Withdrawal Transaction completed.")
+    print("Reference Number: N", random.randint(10000, 100000))
+    exit()
+    
+    
+
+def depositOperation():
+    #Deposit Process
+    print("Deposit Operations")
+    acctDB.get("balance")
+    bal = acctDB.get("balance")
+    amt = float(input("Enter amount: "))
+    bal = amt + bal
+    acctDB["balance"] = bal
+    print("Your balance is %f \nDeposit Transaction Completed" % acctDB["balance"])
+    print("Reference Number: N", random.randint(10000, 100000))
+
+
+def generationAccountNumber():
+
+    return random.randrange(1000000009,10000000009)
+
+def logout():
+    print("%s, you are logged out!" %acctDB.get("first_name"))
+    print("Thank you for Banking with us!")
+    login()
+
+#### Thank You Lord!!! #####
+
+
+init()
