@@ -18,14 +18,14 @@ demoAcctDB = {"name": 'olumide', "pin": '2020', "account": '101010', "balance":2
 def init():
 
    
-    print("Welcome{}{}-{}\U0001F606\n".format("to Ecobank," , " Today is: " + date,time) + "***********" * 4)
+    print("Welcome{}{}-{}\U0001F606\n".format(" to Ecobank," , " Today is: " + date,time) + "***********" * 4)
     print("| 1 | Existing Customer\n| 2 | New Customer\n| 3 | Recover Account Details\n" + "***********" * 4 )
  
     UserInp = int(input("\nSelect Option: "))
 
     if(UserInp == 1):
         
-        login()
+        DemoLogin()
     elif(UserInp == 2):
         
         register()
@@ -39,7 +39,7 @@ def init():
     Log in Operations
     begins here
     """
-def login():
+def DemoLogin():
     allowedUsers = ['101010', '202020']
     allowedPassword = ['1010','2002']
     balanceAmt = 2000.00
@@ -119,7 +119,20 @@ def login():
 
         print('Name not found, please try again')
         init()
-#login operations end here
+#Demo Login operations
+
+def login():
+	print("********* Login ***********")
+	accountNumberFromUser = int(input("What is your account number? \n"))
+	Upin = input("What is your pin \n")
+	for accountNumber,userDetails in acctDB.items():
+	           if (accountNumber == accountNumberFromUser):
+	            	   
+	            	   if(userDetails[2] == Upin):
+	            	   	bankOperation(userDetails)
+	    #    print('Invalid account or password')
+	    #    login()
+
 def register():
 
     print("****** Account Opening Page *******")
@@ -138,13 +151,13 @@ def register():
     accountNumber = generationAccountNumber()
     acctDB[accountNumber] = [ first_name, last_name, pin, phoneNo]
     acctDB.update({"balance": 500.0})
-    print(acctDB)
+    
 
     print("Your Account Has been created Successfully!\U0001f600")
     print("***********" * 4)
     print("Your Account Details:")
     print("Account Number:\t %d" % accountNumber)
-    print("Full Name:\t \t " + first_name.title() + " " + last_name.title())
+    print("Full Name:\t " + first_name.title() + " " + last_name.title())
     print("Mobile Number:\t " + phoneNo)
     print("Please note that your mobile number\nwill be use to receive transaction alerts!")
     print("***********" * 4)
@@ -206,24 +219,27 @@ def bankOperation(userDetails):
     print('1. Withdrawal')
     print('2. Cash Deposit')
     print('3. Balance')
-    print('4. Complaint')
+    print('4. Log out')
     print("*********" * 4)
     selectedOption = int(input('Please select an Option: '))
     print("*********" * 4)
-    selectedOption = int(input("Enter Option: "))
+    
 
     if(selectedOption == 1):
         #Withdraw
         withdrawalOperation()
+        bankOperation(userDetails)
         
     elif(selectedOption == 2):
         #Deposit
         depositOperation()
+        bankOperation(userDetails)
         
         
     elif(selectedOption == 3):
         
-        print(balanceOperation(bal))
+        balanceOperation()
+        bankOperation(userDetails)
         
     elif(selectedOption == 4):
         #logout call
@@ -231,14 +247,15 @@ def bankOperation(userDetails):
     else:
       
         print("Invalid option selected")
-        bankOperation(userDetails)
+        
 
 
 def balanceOperation():
     #print Account Balance
     
-    bal = acctDB.get("balance")
-    print("Your balance is %f \nDeposit Transaction Completed" % acctDB["balance"])
+    acctDB.get("balance")
+    print("Your balance is N %f \nDeposit Transaction Completed" % acctDB["balance"])
+    
 
 def withdrawalOperation():
     #Withdrawal Process
@@ -247,13 +264,10 @@ def withdrawalOperation():
     bal = acctDB.get("balance")
     bal = bal - amt
     acctDB["balance"] = bal
-    print(acctDB["balance"])
     print("Take Your Cash: ")
     print("Withdrawal Transaction completed.")
-    print("Reference Number: N", random.randint(10000, 100000))
-    exit()
-    
-    
+    print("Reference Number: #", random.randint(10000, 100000))
+      
 
 def depositOperation():
     #Deposit Process
@@ -263,8 +277,9 @@ def depositOperation():
     amt = float(input("Enter amount: "))
     bal = amt + bal
     acctDB["balance"] = bal
-    print("Your balance is %f \nDeposit Transaction Completed" % acctDB["balance"])
+    print("Your balance is N %f \nDeposit Transaction Completed" % acctDB["balance"])
     print("Reference Number: N", random.randint(10000, 100000))
+    
 
 
 def generationAccountNumber():
@@ -272,7 +287,7 @@ def generationAccountNumber():
     return random.randrange(1000000009,10000000009)
 
 def logout():
-    print("%s, you are logged out!" %acctDB.get("first_name"))
+    print("You have successfully logged out!")
     print("Thank you for Banking with us!")
     login()
 
@@ -280,3 +295,4 @@ def logout():
 
 
 init()
+#© 2021 Zuri Team
