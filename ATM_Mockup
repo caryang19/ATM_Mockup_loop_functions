@@ -42,6 +42,8 @@ def DemoLogin():
     allowedUsers = ['101010', '202020']
     allowedPassword = ['1010','2002']
     balanceAmt = 2000.00
+    print("Use 101010 and 1010 for Demo User as Existing Customer")
+    print("*********" * 4)
     Acct = input("Enter Account Number: ")
     if(Acct in allowedUsers):
         password = input("Enter Pin: ")
